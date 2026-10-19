@@ -90,61 +90,6 @@ npx serve -l 8765
 
 然后访问 http://127.0.0.1:8765/ 。
 
-## 部署到 GitHub Pages
-
-站点无构建步骤，直接用「分支部署」即可。
-
-**1. 新建仓库**
-
-在 https://github.com/new 创建名为 `YoyuDev-IPH` 的 **Public** 仓库，README 与 .gitignore 均**不要勾选**。
-
-> ⚠️ 仓库名不要用 `yoyudev.github.io`。该名字是 GitHub Pages 的用户站点专用仓库，已被作品集占用，重名会覆盖作品集。本项目作为项目站点，会被部署到 `/YoyuDev-IPH/` 子路径下。
-
-**2. 初始化并推送**
-
-```bash
-cd YoyuDev-IPH
-git init -b main
-echo ".idea/" > .gitignore          # 忽略 IDE 工程目录
-git add .
-git commit -m "feat: 一只游鱼沉浸式博客"
-git remote add origin https://github.com/YoyuDev/YoyuDev-IPH.git
-git push -u origin main
-```
-
-> 推送需要凭证：GitHub 已不支持密码认证，请使用 Personal Access Token，或先执行 `gh auth login`。
-
-**3. 开启 Pages**
-
-仓库页 **Settings → Pages** → Source 选 **Deploy from a branch** → Branch 选 `main`，目录选 `/ (root)` → **Save**。
-
-**4. 等待生效**
-
-约 1–2 分钟后，Pages 页顶部会出现 `Your site is live at https://yoyudev.github.io/YoyuDev-IPH/`。
-
-**后续更新**
-
-```bash
-git add . && git commit -m "update" && git push
-```
-
-push 后 Pages 会自动重新部署，进度可在仓库的 **Actions** 页查看。
-
-> `index.html` 中的样式、脚本与头像全部使用相对路径（`assets/...`），因此部署到 `/YoyuDev-IPH/` 子路径下不会出现资源 404。
-
-## 可配置项
-
-集中在 `assets/blog.js` 顶部，改一行即可：
-
-| 常量 | 说明 |
-| --- | --- |
-| `REPO_URL` | 头部 GitHub 图标指向的仓库地址 |
-| `MESSAGES_API` | 留言接口地址；留空表示仅使用浏览器本地存储 |
-| `LIKE_SEED` | 点赞显示的基数 |
-| `PORTFOLIO` | 作品集地址 |
-| `CSDN` | CSDN 博客地址 |
-
-页面文案、文章列表与项目列表分别位于 `index.html` 与 `assets/blog.js` 的 `POSTS` / `PROJECTS` 常量中。
 
 ## 已知边界
 
