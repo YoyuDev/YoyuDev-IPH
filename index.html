@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一只游鱼 · 沉浸式博客 | Java · AI Agent 工程实践</title>
+<meta name="description" content="一只游鱼的个人博客 —— Java 全栈、AI Agent 与工程实践踩坑记录。累计 73 篇，100K+ 阅读。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 32c0-12 12-20 26-20 10 0 18 5 22 10l8-6v32l-8-6c-4 5-12 10-22 10C20 52 8 44 8 32z' fill='%230c9e8e'/%3E%3Ccircle cx='22' cy='28' r='4' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/blog.css">
+</head>
+<body>
+
+<!-- 水境画布：水波 · 气泡 · 游鱼 · 涟漪 -->
+<canvas id="sea" aria-hidden="true"></canvas>
+
+<!-- 顶部悬浮条 -->
+<header class="topbar">
+  <a class="mini-brand" href="#" data-goto="0">
+    <img src="assets/avatar.png" alt="一只游鱼">
+    <span>一只游鱼<small>YOYU'S BLOG</small></span>
+  </a>
+  <div class="top-actions">
+    <button class="round-btn" id="soundBtn" aria-label="音效开关" title="音效开关"></button>
+    <a class="round-btn" id="repoBtn" href="https://github.com/YoyuDev/YoyuDev-IPH" target="_blank" rel="noopener" data-sfx aria-label="GitHub 仓库" title="GitHub 仓库">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+    <a class="round-btn portfolio" href="https://yoyudev.github.io/" target="_blank" rel="noopener" data-sfx>
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      <em>作品集</em>
+    </a>
+  </div>
+</header>
+
+<!-- 右侧圆点导航 -->
+<nav class="dots" id="dots" aria-label="页面导航"></nav>
+
+<!-- 页码指示 -->
+<div class="page-no" id="pageNo">01 / 05</div>
+
+<!-- 全屏页面舞台 -->
+<main class="stage" id="stage">
+
+  <!-- 第 1 页 · 首页：介绍与标语与统计 -->
+  <section class="page" data-title="首页">
+    <div class="page-inner hero">
+      <img class="hero-avatar rise" src="assets/avatar.png" alt="一只游鱼">
+      <p class="hero-kicker rise">一只游鱼 · Java 全栈 / AI Agent 开发者</p>
+      <h1 class="rise">用 Java 构建业务系统，<br>用 <em>Agent</em> 探索 AI 应用。</h1>
+      <p class="hero-lede rise">把项目里踩过的坑写下来，是另一种形式的复盘。<br>这里沉着我写过的深度文章，和每一个交付过的作品。</p>
+      <div class="hero-stats rise">
+        <div class="stat"><strong data-count="73">0</strong><span>累计文章</span></div>
+        <i class="s-dot"></i>
+        <div class="stat"><strong data-count="100" data-suffix="K+">0</strong><span>阅读量</span></div>
+        <i class="s-dot"></i>
+        <div class="stat"><strong data-count="7">0</strong><span>上线 / 开源项目</span></div>
+      </div>
+      <div class="hero-cta rise">
+        <button class="btn btn-primary" data-goto="1" data-sfx>翻页 · 读文章
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+        </button>
+        <a class="btn btn-ghost" href="https://yoyudev.github.io/" target="_blank" rel="noopener" data-sfx>进入作品集
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="scroll-hint"><span class="wheel"></span><small>滚动 / 点击切换页面</small></div>
+  </section>
+
+  <!-- 第 2 页 · 精选文章 -->
+  <section class="page" data-title="文章">
+    <div class="page-inner">
+      <p class="kicker rise">ARTICLES · 精选 3 篇</p>
+      <h2 class="rise">沉在深水的<em>文字</em></h2>
+      <div class="post-row rise" id="postRow"></div>
+      <p class="page-foot rise">其余 70 篇（Vue / Spring Boot / RAG / LLM…）首发在
+        <a href="https://blog.csdn.net/hahai_" target="_blank" rel="noopener" data-sfx>CSDN 博客 ↗</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 第 3 页 · 作品集 -->
+  <section class="page" data-title="作品">
+    <div class="page-inner">
+      <p class="kicker rise">PORTFOLIO · 交付过的作品</p>
+      <h2 class="rise">每个都<em>点得进去</em>看</h2>
+      <div class="proj-grid rise" id="projGrid"></div>
+      <div class="page-foot rise">
+        <a class="btn btn-primary" href="https://yoyudev.github.io/" target="_blank" rel="noopener" data-sfx>进入完整作品集
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第 4 页 · 关于与链接 -->
+  <section class="page" data-title="关于">
+    <div class="page-inner about">
+      <div class="about-me rise">
+        <img class="about-avatar" src="assets/avatar.png" alt="一只游鱼">
+        <div>
+          <p class="kicker">ABOUT · 关于我</p>
+          <h2>你好，我是<em>一只游鱼</em></h2>
+          <p class="about-lede">软件工程在读 · Java 全栈方向 · 正在找机会。中国 · 辽宁。<br>正在做 PianoAgent，写 Agent 工程的坑与解法。</p>
+        </div>
+      </div>
+      <div class="link-row rise" id="linkRow"></div>
+      <p class="page-foot rise">© <span id="year"></span> 一只游鱼 · Interactive Blog</p>
+    </div>
+  </section>
+
+  <!-- 第 5 页 · 留言板与点赞 -->
+  <section class="page" data-title="留言">
+    <div class="page-inner guest">
+      <p class="kicker rise">GUESTBOOK · 留言板</p>
+      <h2 class="rise">留个<em>脚印</em>再走</h2>
+      <div class="guest-grid rise">
+        <aside class="like-panel">
+          <button class="like-btn" id="likeBtn" aria-pressed="false" aria-label="点赞">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+            <b id="likeCount">0</b>
+          </button>
+          <p class="like-hint" id="likeHint">点个赞鼓励一下</p>
+        </aside>
+        <div class="msg-board">
+          <form class="msg-form" id="msgForm">
+            <input class="msg-name" id="msgName" maxlength="16" placeholder="昵称（可留空）" autocomplete="off">
+            <textarea class="msg-text" id="msgText" maxlength="200" placeholder="想说的话……（最多 200 字）"></textarea>
+            <div class="msg-bar">
+              <span class="msg-count" id="msgCount">0 / 200</span>
+              <button type="submit" class="btn btn-primary">发表留言
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="bubble-zone" id="bubbleZone" aria-hidden="true"></div>
+      <p class="page-foot rise">留言会化作气泡，自海底上浮到海面后消散 · 数据保存在你的浏览器本地（localStorage）</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- 文章全屏阅读层 -->
+<div class="reader" id="reader" aria-hidden="true">
+  <div class="reader-panel">
+    <header class="reader-top">
+      <button class="round-btn" id="readerClose" aria-label="关闭阅读" title="关闭 (ESC)">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <a class="reader-csdn" href="https://blog.csdn.net/hahai_" target="_blank" rel="noopener" data-sfx>CSDN @一只游鱼 ↗</a>
+    </header>
+    <div class="reader-body" id="readerBody"></div>
+  </div>
+</div>
+
+<script src="assets/blog.js"></script>
+</body>
+</html>
